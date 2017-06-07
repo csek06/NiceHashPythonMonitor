@@ -17,5 +17,6 @@ The the script uses the IFTTT Maker chanel to do the alerting.  To configure and
    I configured mine to send both a text and an email
 2. Setup the config.py settings.  Add your BTC address and IFTTT key
 3. Run nicehash_start.py (should probably configure through cron to run at regular intervals). Sample crontab config below runs every 3 minutes.
+		
 		# NHM Status
 		*/3 * * * * cd /location/of/pythonscript && /usr/bin/python ./nicehash_start.py
