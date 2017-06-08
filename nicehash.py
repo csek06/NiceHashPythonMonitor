@@ -25,6 +25,7 @@ try:
 	logger.info("Starting app")
 	
 	totalProf = 0.0
+	wemoEnabled = false
 
 	def getProf():
 		#query the nicehash API and sum the profitibility per day (in BTC)
@@ -75,6 +76,15 @@ try:
 	
 	#testAlert()
 	
+	def sendWemoPowerToggle():
+		#trigger IFTTT wemo event
+		import requests
+		eventName = "miner_power_toggle"
+		url = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + config.iftttKey
+		logger.debug("sending request to: "+url)
+		r = request.post(url)
+		logger.debug("request response code: "+str(r.status_code))
+	
 	timer = 0
 
 	messagesSent = 0	
@@ -106,6 +116,13 @@ try:
 				#reminder alerts every 15 minutes
 				sendAlert("NiceHash is STILL running slow for " + str(timer / 60) +" mins. Current rate is " + str(totalProf) + " BTC/Day","nicehash")
 				logger.info("The miner has still running slow after " + str(timer / 60) + " mins. Continuing to check every 30 seconds until it recovers.")
+				#if wemo enabled then power the miner
+				if wemoEnabled:
+					logger.info("sending signal to power the wemo off")
+					sendWemoPowerToggle()
+					time.sleep(10)
+					logger.info("sending signal to power the wemo back on")
+					sendWemoPowerToggle()
 			logger.debug("sleeping for 30 seconds")
 			time.sleep(30)
 			timer = timer + 30
