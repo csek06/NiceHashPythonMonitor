@@ -25,7 +25,7 @@ try:
 	logger.info("Starting app")
 	
 	totalProf = 0.0
-	wemoEnabled = false
+	wemoEnabled = False
 
 	def getProf():
 		#query the nicehash API and sum the profitibility per day (in BTC)
