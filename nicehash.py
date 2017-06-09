@@ -79,10 +79,11 @@ try:
 	def sendWemoPowerToggle():
 		#trigger IFTTT wemo event
 		import requests
+		report = {}
 		eventName = "miner_power_toggle"
 		url = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + config.iftttKey
 		logger.debug("sending request to: "+url)
-		r = request.post(url)
+		r = requests.post(url,data=report)
 		logger.debug("request response code: "+str(r.status_code))
 	
 	timer = 0
